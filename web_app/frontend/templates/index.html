@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Vehicle Fault Diagnosis</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="gradient-bg text-gray-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="glass-card rounded-2xl shadow-2xl w-full max-w-6xl p-6 md:p-8">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Intelligent Vehicle Fault Diagnosis</h1>
+            <p class="text-sky-300 mt-2">Enter your vehicle's live sensor data to get a real-time diagnosis.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <form id="diagnosis-form">
+                <h2 class="text-2xl font-semibold text-white border-b-2 border-sky-400 pb-2 mb-6">Input Parameters</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-sky-200 mb-3">Vehicle Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <div>
+                                <label for="brand" class="block text-sm font-medium mb-1">Brand</label>
+                                <select id="brand" name="brand" class="w-full bg-slate-700 border border-slate-600 rounded-md p-2 text-white focus:ring-sky-500 focus:border-sky-500">
+                                    <option>Maruti Suzuki</option>
+                                    <option>Hyundai</option>
+                                    <option>Tata</option>
+                                    <option>Mahindra</option>
+                                    <option>Honda</option>
+                                    <option>Toyota</option>
+                                    <option>Ford</option>
+                                    <option>Volkswagen</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="Vehicle_Age_Years" class="block text-sm font-medium mb-1">Vehicle Age: <span id="Vehicle_Age_Years_value" class="font-bold text-sky-300">5</span> years</label>
+                                <input type="range" id="Vehicle_Age_Years" name="Vehicle_Age_Years" min="1" max="20" value="5" oninput="updateValue('Vehicle_Age_Years')">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="Odometer_Reading_km" class="block text-sm font-medium mb-1">Odometer Reading: <span id="Odometer_Reading_km_value" class="font-bold text-sky-300">85,000</span> km</label>
+                                <input type="range" id="Odometer_Reading_km" name="Odometer_Reading_km" min="1000" max="300000" value="85000" step="1000" oninput="updateValue('Odometer_Reading_km')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-sky-200 mb-3">Live Sensor Data</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <div>
+                                <label for="Ambient_Temperature_C" class="block text-sm font-medium mb-1">Ambient Temp (°C): <span id="Ambient_Temperature_C_value" class="font-bold text-sky-300">25.0</span></label>
+                                <input type="range" id="Ambient_Temperature_C" name="Ambient_Temperature_C" min="-20" max="60" value="25" step="0.1" oninput="updateValue('Ambient_Temperature_C')">
+                            </div>
+                             <div>
+                                <label for="Engine_Temp_C" class="block text-sm font-medium mb-1">Engine Temp (°C): <span id="Engine_Temp_C_value" class="font-bold text-sky-300">95.0</span></label>
+                                <input type="range" id="Engine_Temp_C" name="Engine_Temp_C" min="70" max="140" value="95" step="0.1" oninput="updateValue('Engine_Temp_C')">
+                            </div>
+                             <div>
+                                <label for="Engine_RPM" class="block text-sm font-medium mb-1">Engine RPM: <span id="Engine_RPM_value" class="font-bold text-sky-300">1500</span></label>
+                                <input type="range" id="Engine_RPM" name="Engine_RPM" min="500" max="6000" value="1500" step="50" oninput="updateValue('Engine_RPM')">
+                            </div>
+                            <div>
+                                <label for="Oil_Pressure_psi" class="block text-sm font-medium mb-1">Oil Pressure (psi): <span id="Oil_Pressure_psi_value" class="font-bold text-sky-300">45.0</span></label>
+                                <input type="range" id="Oil_Pressure_psi" name="Oil_Pressure_psi" min="10" max="100" value="45" step="0.1" oninput="updateValue('Oil_Pressure_psi')">
+                            </div>
+                             <div>
+                                <label for="Coolant_Level_pct" class="block text-sm font-medium mb-1">Coolant Level (%): <span id="Coolant_Level_pct_value" class="font-bold text-sky-300">80</span></label>
+                                <input type="range" id="Coolant_Level_pct" name="Coolant_Level_pct" min="0" max="100" value="80" step="1" oninput="updateValue('Coolant_Level_pct')">
+                            </div>
+                            <div>
+                                <label for="Battery_Voltage_V" class="block text-sm font-medium mb-1">Battery Voltage (V): <span id="Battery_Voltage_V_value" class="font-bold text-sky-300">12.5</span></label>
+                                <input type="range" id="Battery_Voltage_V" name="Battery_Voltage_V" min="9" max="15" value="12.5" step="0.1" oninput="updateValue('Battery_Voltage_V')">
+                            </div>
+                            <div>
+                                <label for="Mass_Airflow_Rate_gs" class="block text-sm font-medium mb-1">Mass Airflow (g/s): <span id="Mass_Airflow_Rate_gs_value" class="font-bold text-sky-300">10.0</span></label>
+                                <input type="range" id="Mass_Airflow_Rate_gs" name="Mass_Airflow_Rate_gs" min="2" max="25" value="10" step="0.1" oninput="updateValue('Mass_Airflow_Rate_gs')">
+                            </div>
+                            <div>
+                                <label for="Throttle_Position_pct" class="block text-sm font-medium mb-1">Throttle Pos (%): <span id="Throttle_Position_pct_value" class="font-bold text-sky-300">20</span></label>
+                                <input type="range" id="Throttle_Position_pct" name="Throttle_Position_pct" min="0" max="100" value="20" step="1" oninput="updateValue('Throttle_Position_pct')">
+                            </div>
+                             <div>
+                                <label for="Brake_Pad_Wear_pct" class="block text-sm font-medium mb-1">Brake Pad Wear (%): <span id="Brake_Pad_Wear_pct_value" class="font-bold text-sky-300">65</span></label>
+                                <input type="range" id="Brake_Pad_Wear_pct" name="Brake_Pad_Wear_pct" min="0" max="100" value="65" step="1" oninput="updateValue('Brake_Pad_Wear_pct')">
+                            </div>
+                            <div>
+                                <label for="Tire_Pressure_psi" class="block text-sm font-medium mb-1">Tire Pressure (psi): <span id="Tire_Pressure_psi_value" class="font-bold text-sky-300">32</span></label>
+                                <input type="range" id="Tire_Pressure_psi" name="Tire_Pressure_psi" min="15" max="45" value="32" step="1" oninput="updateValue('Tire_Pressure_psi')">
+                            </div>
+                             <div>
+                                <label for="Vibration_Level_mm_s" class="block text-sm font-medium mb-1">Vibration (mm/s): <span id="Vibration_Level_mm_s_value" class="font-bold text-sky-300">1.0</span></label>
+                                <input type="range" id="Vibration_Level_mm_s" name="Vibration_Level_mm_s" min="0" max="10" value="1" step="0.1" oninput="updateValue('Vibration_Level_mm_s')">
+                            </div>
+                             <div>
+                                <label for="Fuel_Consumption_L_100km" class="block text-sm font-medium mb-1">Fuel Cons. (L/100km): <span id="Fuel_Consumption_L_100km_value" class="font-bold text-sky-300">8.0</span></label>
+                                <input type="range" id="Fuel_Consumption_L_100km" name="Fuel_Consumption_L_100km" min="3" max="25" value="8" step="0.1" oninput="updateValue('Fuel_Consumption_L_100km')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="diagnoseBtn" type="submit" class="w-full mt-8 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-lg text-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-sky-300">
+                    Diagnose Vehicle
+                </button>
+            </form>
+
+            <div class="flex flex-col items-center justify-center bg-slate-800/50 rounded-lg p-6 min-h-[300px] lg:min-h-full">
+                <div id="result-placeholder" class="text-center text-slate-400">
+                    <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    <p class="text-lg">Your diagnosis results will appear here.</p>
+                </div>
+                
+                <div id="loading-spinner" class="hidden animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-sky-400"></div>
+
+                <div id="result-display" class="hidden w-full text-center">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
