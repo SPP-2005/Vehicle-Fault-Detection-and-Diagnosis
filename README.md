@@ -102,7 +102,7 @@ Vehicle Fault Detection Project/
 │   └── app.py                           # Flask Backend Server
 │
 └── README.md
-
+```
 ## ⚙ Installation & Setup
 
 Follow these steps to run the project locally.
