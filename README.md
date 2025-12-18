@@ -80,26 +80,34 @@ The project uses a **Hierarchical Model Architecture**:
 ```text
 Vehicle Fault Detection Project/
 │
-├── data/
-│   └── vehicle_fault_data_v9.csv        # The dataset used for training
+├── Datasets/                            # The dataset used for training
+│   ├── features_encoded.csv        
+│   ├── target.csv                  
+│   ├── test_processed.csv          
+│   ├── train_processed.csv         
+│   └── vehicle_fault_data_v9.csv  
 │
-├── models/                              # Serialized ML models
+├── Models/                              # Serialized ML models
 │   ├── Vehicle_Fault_Detection_Model.pkl
 │   ├── Vehicle_Fault_Diagnosis_Model.pkl
 │   ├── Vehicle_Fault_Unit_Model.pkl
 │   ├── Vehicle_Fault_Severity_Model.pkl
 │   └── scaler.joblib                    # Saved StandardScaler for preprocessing
 │
-├── notebooks/
+├── Notebooks/
 │   └── Vehicle Fault Detection.ipynb    # Jupyter Notebook for training
 │
 ├── web_app/                             # The Flask Application
-│   ├── static/
-│   │   ├── style.css                    # CSS Styling
-│   │   └── script.js                    # Logic to fetch API
-│   ├── templates/
-│   │   └── index.html                   # Main UI Page
-│   └── app.py                           # Flask Backend Server
+│   ├── backend/
+│   │   └── app.py                       # Flask Backend Server
+│   │
+│   └── frontend/   
+│       ├── static/
+│       │   ├── styles.css               # CSS Styling
+│       │   └── script.js                # Logic to fetch API
+│       │
+│       └── templates/
+│           └── index.html               # Main UI Page
 │
 └── README.md
 ```
